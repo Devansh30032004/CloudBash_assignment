@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/script.js' %}" defer></script>
+</head>
+<body>
+    <h1>Recommendation Control Panel</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="api_choice">Select API:</label>
+        <select name="api_choice" id="api_choice">
+            <option value="myntra">Myntra</option>
+            <option value="meesho">Meesho</option>
+        </select>
+        <button type="submit">Fetch Recommendations</button>
+    </form>
+
+    <h2>Recommendations:</h2>
+    <ul id="recommendations-container">
+        <!-- Myntra or Meesho recommendations will be dynamically inserted here -->
+    </ul>
+</body>
+</html>
