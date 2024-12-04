@@ -3,26 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control Panel</title>
+    <title>Recommendation Control Panel</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="{% static 'js/script.js' %}" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        select {
+            padding: 10px;
+            width: 100%;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .recommendations {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .recommendation {
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            text-align: center;
+        }
+        .recommendation h3 {
+            font-size: 18px;
+            color: #333;
+        }
+        .recommendation p {
+            font-size: 16px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-    <h1>Recommendation Control Panel</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <label for="api_choice">Select API:</label>
-        <select name="api_choice" id="api_choice">
-            <option value="myntra">Myntra</option>
-            <option value="meesho">Meesho</option>
-        </select>
-        <button type="submit">Fetch Recommendations</button>
-    </form>
 
-    <h2>Recommendations:</h2>
-    <ul id="recommendations-container">
-        <!-- Myntra or Meesho recommendations will be dynamically inserted here -->
-    </ul>
+    <div class="container">
+        <h1>Recommendation Control Panel</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="api_choice">Select API:</label>
+                <select name="api_choice" id="api_choice">
+                    <option value="myntra">Myntra</option>
+                    <option value="meesho">Meesho</option>
+                </select>
+            </div>
+            <button type="submit">Fetch Recommendations</button>
+        </form>
+
+        <h2>Recommendations:</h2>
+        <div class="recommendations">
+            {% for recommendation in recommendations %}
+                <div class="recommendation">
+                    <h3>{{ recommendation.name }}</h3>
+                    <p>Price: {{ recommendation.price }}</p>
+                    <p>{{ recommendation.description }}</p>
+                </div>
+            {% empty %}
+                <p>No recommendations available. Please select an API.</p>
+            {% endfor %}
+        </div>
+    </div>
+
 </body>
 </html>
